@@ -86,7 +86,9 @@
 
 #pragma once
 
+#ifndef FASTLED_INTERNAL
 #pragma message "NOTE: ESP32 support using I2S parallel driver. All strips must use the same chipset"
+#endif
 
 FASTLED_NAMESPACE_BEGIN
 
@@ -199,8 +201,8 @@ class ClocklessController : public CPixelLEDController<RGB_ORDER>
     // -- Store the GPIO pin
     gpio_num_t     mPin;
     
-    // -- This instantiation forces a check on the pin choice
-    FastPin<DATA_PIN> mFastPin;
+    // -- Verify that the pin is valid
+    static_assert(FastPin<DATA_PIN>::validpin(), "Invalid pin specified");
     
     // -- Save the pixel controller
     PixelController<RGB_ORDER> * mPixels;
